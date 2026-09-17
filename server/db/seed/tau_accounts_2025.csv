@@ -1,0 +1,26 @@
+account_id,account_holder_name,phone_number,email,account_type,bank_name,opening_balance,current_balance
+ACC1000,Rajesh,+91 6830166131,matthew60@example.org,Current Account,Yes Bank,27684.37,61988.27
+ACC1001,Pruthvi,+91 7082462819,paudalbir@example.net,Salary Account,State Bank of India,33397.24,413976.29
+ACC1002,Ashlin,+91 9579754323,baljiwanchadha@example.com,Savings Account,Kotak Mahindra Bank,88275.55,118901.39
+ACC1003,Harshitha,+91 7760189555,pboase@example.org,Current Account,IDFC First Bank,95386.38,243770.31
+ACC1004,Mrudula,+91 9465075291,kbhargava@example.org,Salary Account,HDFC Bank,48367.01,284976.32
+ACC1005,Manju,+91 8268465632,davidranganathan@example.org,Savings Account,State Bank of India,39668.79,446193.09
+ACC1006,Mohit,+91 8289078666,chakradhardeol@example.com,Salary Account,ICICI Bank,82597.97,157605.28
+ACC1007,Vamshi,+91 7815901396,idhawan@example.org,Savings Account,Kotak Mahindra Bank,144210.84,212505.67
+ACC1008,Deepak,+91 7154728038,pratyush19@example.net,Salary Account,State Bank of India,109708.79,287726.36
+ACC1009,Surya,+91 7538885393,kashishchatterjee@example.net,Savings Account,Yes Bank,116183.49,251087.64
+ACC1010,Darpan Jha,+91 8755131373,bwali@example.com,Salary Account,Axis Bank,82744.93,310824.74
+ACC1011,Sudiksha Pathak,+91 6637265167,yuvraj23@example.org,Salary Account,ICICI Bank,114223.83,287379.74
+ACC1012,Warda Oza,+91 9528820018,mmani@example.org,Current Account,State Bank of India,76395.23,217115.55
+ACC1013,Yauvani Sahota,+91 8862057986,hemadoshi@example.com,Current Account,State Bank of India,89137.25,244181.04
+ACC1014,Balveer Brahmbhatt,+91 9918058887,harini59@example.com,Savings Account,HDFC Bank,52304.26,109733.45
+ACC1015,Ekapad Chander,+91 7478878384,urvi10@example.net,Current Account,Axis Bank,129199.97,307438.9
+ACC1016,Sanaya Mane,+91 6252427316,bpalan@example.com,Salary Account,State Bank of India,148683.29,302562.04
+ACC1017,Om Dada,+91 8058770658,nbhargava@example.com,Current Account,Kotak Mahindra Bank,86594.1,120325.47
+ACC1018,Yug Rao,+91 7426462889,ftaneja@example.org,Salary Account,Punjab National Bank,31630.09,160595.09
+ACC1019,Neelima Mall,+91 6931417058,qushimallick@example.net,Salary Account,Kotak Mahindra Bank,100821.45,228257.73
+ACC1020,Jagrati Rai,+91 8834782450,matthewbutala@example.org,Salary Account,HDFC Bank,21995.0,360260.35
+ACC1021,Vincent Kaul,+91 9786843353,sundaramqabil@example.com,Current Account,State Bank of India,72610.7,316939.21
+ACC1022,Aayush Dhingra,+91 6684934072,xwarrior@example.net,Savings Account,Kotak Mahindra Bank,77957.2,177911.69
+ACC1023,Jeremiah Varma,+91 8205617483,shanmanya@example.com,Savings Account,HDFC Bank,31810.72,414111.17
+ACC1024,Meera Chawla,+91 7965724920,drattan@example.org,Current Account,Yes Bank,115400.78,179491.17
