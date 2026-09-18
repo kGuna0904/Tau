@@ -27,7 +27,7 @@ app.use((err, req, res, next) => {
 
 //this server file runs on the port 4000
 const PORT = process.env.PORT || 4000;
-app.listen(`${PORT}`, () => console.log("Express running on port 4000"));
+app.listen(PORT, () => console.log(`Express running on port ${PORT}`));
 
 //need to export the app not the healthRouter
 export default app;
