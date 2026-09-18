@@ -15,8 +15,7 @@ app.use(express.json());//middleware for requesting and responding
 app.use('/api', healthRouter);
 
 //404 error to show if the file not found or the connection not found
-app.use((req, res, err) =>{
-    console.error(err);//shows error before the status
+app.use((req, res) =>{
     res.status(404).json({error: '404 file not found'} );
 });
 
@@ -28,7 +27,7 @@ app.use((err, req, res, next) => {
 
 //this server file runs on the port 4000
 const PORT = process.env.PORT || 4000;
-app.listen(PORT, () => console.log("Express running on port 4000"));
+app.listen(`${PORT}`, () => console.log("Express running on port 4000"));
 
 //need to export the app not the healthRouter
 export default app;
