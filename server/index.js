@@ -2,7 +2,8 @@
 //index server file for setting up the backend and set of rules of what each has to do 
 import express from 'express';//using express
 import dotenv from 'dotenv';
-import healthRouter from './routes/health.js'//
+import healthRouter from './routes/health.js';//to determine the connection between the server and the database
+import authRouter from './routes/auth.js';
 
 //reads the env file
 dotenv.config();
@@ -13,6 +14,9 @@ app.use(express.json());//middleware for requesting and responding
 
 //api that will connect as-- api/health/
 app.use('/api', healthRouter);
+
+//api connects as-- api/login
+app.use('/api', authRouter);
 
 //404 error to show if the file not found or the connection not found
 app.use((req, res) =>{

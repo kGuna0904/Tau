@@ -1,5 +1,5 @@
 
-//this files sole purpose is to verify that if the connection is live and in working state 
+//this file's sole purpose is to verify that if the connection is live and in working state 
 import express from 'express';
 import pool from '../db/pool.js';//path verified
 
