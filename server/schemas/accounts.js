@@ -25,3 +25,10 @@ export const transactionsQuery = z.object({
     page: z.coerce.number().int().min(1).default(1),
     limit: z.coerce.number().int().min(1).max(50).default(15)
 });
+
+
+//schema for statement route
+export const dateRangeQuery = z.object({
+    from: z.iso.date().optional(),
+    to: z.iso.date().optional()
+})

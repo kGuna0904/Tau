@@ -2,7 +2,7 @@
 import express from 'express';//express server module
 import pool from '../db/pool.js';//for connection pooling 
 import validate from '../middleware/validate.js';//validates the schema queries and parses it
-import {accountIdParams, summaryQuery, transactionsQuery} from '../schemas/accounts.js';//schema that validates the accounts id and month
+import {accountIdParams, summaryQuery, transactionsQuery, dateRangeQuery} from '../schemas/accounts.js';//schema that validates the accounts id and month, transactions, statements
 
 const router = express.Router();
 
@@ -151,6 +151,71 @@ router.get('/accounts/:accountId/transactions', validate(accountIdParams, 'param
         page: page,
         limit: limit
     });
+});
+
+
+//------------router4
+//for statements router
+router.get('/accounts/:accountId/statement', validate(accountIdParams, 'params'), validate(dateRangeQuery, 'query'), async(req, res) => {
+
+    const {accountId} = req.valid.params;
+    const {from, to} = req.valid.query;
+
+    //takes 3 queries
+
+    //
+    const  qA= 
+    `SELECT opening_balance 
+    FROM accounts 
+    WHERE account_id = $1`;
+
+    //
+    const qB =
+    `SELECT COALESCE(SUM(CASE WHEN direction = 'Received' THEN amount ELSE -amount END), 0) AS moved
+    FROM transactions
+    WHERE account_id = $1
+    AND status = 'Success'
+    AND txn_date < $2`;
+
+    //
+    const qC = 
+    `SELECT txn_date::text AS txn_date, merchant_name, direction, amount,
+    SUM(CASE WHEN direction = 'Received' THEN amount ELSE -amount END)
+    OVER (ORDER BY txn_date, txn_time, trans_id) AS running
+    FROM transactions
+    WHERE account_id = $1
+    AND status = 'Success'
+    AND txn_date >= $2
+    AND txn_date <= $3
+    ORDER BY txn_date, txn_time, trans_id`;
+
+    const qAresults= await pool.query(qA, [accountId]);
+    const qBresults = await pool.query(qB, [accountId, from]);
+    const qCresults = await pool.query(qC, [accountId, from, to]);
+
+    //account
+    const Arows = qAresults.rows[0];
+    if(!Arows){
+        return res.status(404).json({error: "Balance not found"});
+    }
+
+    //moved
+    const Brows = qBresults.rows[0].moved;
+    //rows
+    const Crows = qCresults.rows;
+
+    const opening = Math.round((Number(Arows.opening_balance) + Number(Brows)) * 100) /100;
+    
+    const stateRows = Crows.map( r => ({...r, amount: Number(r.amount), balance: Math.round((opening + Number(r.running)) * 100) / 100}));
+    //need to deeply understand this line
+    const closing = stateRows.length ? stateRows[stateRows.length - 1].balance : opening;
+    
+    return res.json({
+        opening_balance: opening,
+        closing_balance: closing,
+        rows: stateRows
+    });
+
 });
 
 export default router;
