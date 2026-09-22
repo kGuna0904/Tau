@@ -9,7 +9,7 @@ export default function validate(schema, source = 'query') {
         if (!result.success){//if not result but success then the respond err
         return res.status(400).json({error: 'Invalid request',details: result.error.issues});
         } else {
-            //if request is valid the contain the req else create new empty obj
+            //if request is valid then contain the req else create new empty obj
             req.valid = req.valid || {};
             req.valid[source] = result.data; // source holds query, body and params
             next();
