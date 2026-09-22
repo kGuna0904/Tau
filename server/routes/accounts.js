@@ -2,10 +2,11 @@
 import express from 'express';//express server module
 import pool from '../db/pool.js';//for connection pooling 
 import validate from '../middleware/validate.js';//validates the schema queries and parses it
-import {accountIdParams, summaryQuery} from '../schemas/accounts.js';//schema that validates the accounts id and month
+import {accountIdParams, summaryQuery, transactionsQuery} from '../schemas/accounts.js';//schema that validates the accounts id and month
 
 const router = express.Router();
 
+//------------route1
 //gets the data from the DB 
 //must match the schema name
 router.get('/accounts/:accountId', validate(accountIdParams, 'params'), async(req, res) => {
@@ -43,6 +44,7 @@ router.get('/accounts/:accountId', validate(accountIdParams, 'params'), async(re
 });
 
 
+//------------route2
 //for specific month summary router
 router.get('/accounts/:accountId/summary', validate(accountIdParams, 'params'), validate(summaryQuery, 'query'), async(req, res) => {
     
@@ -85,6 +87,70 @@ router.get('/accounts/:accountId/summary', validate(accountIdParams, 'params'), 
             prev_expense: prev_expense,
             prev_savings: prev_savings
         });
+});
+
+
+//----------route3
+//for transactions routing 
+router.get('/accounts/:accountId/transactions', validate(accountIdParams, 'params'), validate(transactionsQuery, 'query'), async(req, res) => {
+
+    const {accountId} = req.valid.params;
+    const {type, search, from, to, page, limit} = req.valid.query;
+
+    //for $2 translation
+    let direction;
+    if(type === 'income'){
+        direction = 'Received';
+    } else if(type === 'expense'){
+        direction = 'Paid';
+    } else {
+        direction = null;
+    }
+
+    //for $3, if the search occurred then the search will be %search%, if not searched for anything then null
+    const find = search ? `%${search}%` : null;
+    //$4 & $5 are user inputs
+    //for $7 offset
+    const offset = (page - 1) * limit;
+
+    //query for WHERE then interpolated, to avoid confusion
+    const where = `
+    WHERE account_id = $1 
+    AND ($2:: text IS NULL OR direction = $2) 
+    AND ($3:: text IS NULL OR merchant_name ILIKE $3 OR category ILIKE $3) 
+    AND ($4::date IS NULL OR txn_date >= $4) 
+    AND ($5::date IS NULL OR txn_date <= $5)`;
+
+    //transaction details query
+    const listSql =    
+    `SELECT trans_id, txn_date::text AS txn_date , merchant_name, category, direction, amount, status
+    FROM transactions
+    ${where}
+    ORDER BY txn_date DESC, txn_time DESC
+    LIMIT $6 OFFSET $7`;
+     
+    //total number of transactions
+    const countSql = 
+    `SELECT count(*) FROM transactions ${where}`;
+
+    //takes the input of the queries
+    const values = [accountId, direction, find, from ?? null, to ?? null];
+
+    //connects the query to the DB 
+    //without the ...(dots), it will call the whole array in the array its being called
+    const listResult = await pool.query(listSql, [...values, limit, offset]);
+    const countResult = await pool.query(countSql, values);
+
+    //without mentioning the Number, the amount returns as a string
+    const transRows = listResult.rows.map( r => ({...r, amount: Number(r.amount)}));
+    const total = Number(countResult.rows[0].count);
+
+    return res.json({
+        rows: transRows,
+        total:total,
+        page: page,
+        limit: limit
+    });
 });
 
 export default router;
