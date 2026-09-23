@@ -2,7 +2,7 @@
 import express from 'express';//express server module
 import pool from '../db/pool.js';//for connection pooling 
 import validate from '../middleware/validate.js';//validates the schema queries and parses it
-import {accountIdParams, summaryQuery, transactionsQuery, dateRangeQuery} from '../schemas/accounts.js';//schema that validates the accounts id and month, transactions, statements
+import {accountIdParams, summaryQuery, transactionsQuery, dateRangeQuery, yearQuery, merchantsQuery} from '../schemas/accounts.js';//schema that validates the accounts id and month, transactions, statements
 
 const router = express.Router();
 
@@ -179,7 +179,7 @@ router.get('/accounts/:accountId/statement', validate(accountIdParams, 'params')
 
     //
     const qC = 
-    `SELECT txn_date::text AS txn_date, merchant_name, direction, amount,
+    `SELECT trans_id, txn_date::text AS txn_date, merchant_name, direction, amount,
     SUM(CASE WHEN direction = 'Received' THEN amount ELSE -amount END)
     OVER (ORDER BY txn_date, txn_time, trans_id) AS running
     FROM transactions
@@ -215,7 +215,92 @@ router.get('/accounts/:accountId/statement', validate(accountIdParams, 'params')
         closing_balance: closing,
         rows: stateRows
     });
+});
 
+
+//----------router5
+//for the monthly router
+router.get('/accounts/:accountId/monthly', validate(accountIdParams, 'params'), validate(yearQuery, 'query'), async(req, res) => {
+    
+    const {accountId} = req.valid.params;
+    const {year} = req.valid.query;
+
+    //dates that enter the queries
+    //start date, where 2022-01-01
+    const start = `${year}-01-01`;
+    //end date, where 2022 + 1 = 2023-01-01
+    const end = `${year + 1}-01-01`;
+    
+    //date_trunc(), to round off the date to a precised specific unit 
+    const queryMonth = 
+    `SELECT date_trunc('month', txn_date)::date::text AS month,
+    COALESCE(SUM(amount) FILTER (WHERE direction = 'Received'), 0) AS income, 
+    COALESCE(SUM(amount) FILTER (WHERE direction = 'Paid'), 0)  AS expense
+    FROM transactions
+    WHERE account_id = $1 AND status = 'Success' AND txn_date >= $2 AND txn_date < $3
+    GROUP BY 1
+    ORDER BY 1`;
+
+    const yearPool = await pool.query(queryMonth, [accountId, start, end]);
+    const yearRows = yearPool.rows;
+    const yearResult = yearRows.map(r => ({...r, income: Number(r.income), expense: Number(r.expense)}));
+
+    //responds with json of year and rows of months
+    return res.json({
+        year: year,
+        months: yearResult
+    });
+});
+
+
+//---------router6
+//for category type routing
+router.get('/accounts/:accountId/categories', validate(accountIdParams, 'params'), validate(dateRangeQuery, 'query'), async(req, res) => {
+    
+    const {accountId} = req.valid.params;
+    const {from, to} = req.valid.query;
+
+    const catSql = 
+    `SELECT category, COUNT(*) AS count, SUM(amount) AS total
+    FROM transactions
+    WHERE account_id = $1 AND direction = 'Paid' AND status = 'Success' AND txn_date >= $2 AND txn_date < $3
+    GROUP BY category
+    ORDER BY total DESC`;
+
+    const catPool = await pool.query(catSql, [accountId, from, to]);
+    const catRows = catPool.rows;
+    const grand = catRows.reduce((sum, r) => sum + Number(r.total), 0);
+    const catResult = catRows.map(r => ({...r, count: Number(r.count), total: Number(r.total), percent: Math.round((Number(r.total) / grand) * 1000) / 10}));
+
+    return res.json({
+        categories: catResult
+    });
+});
+
+
+//---------router7
+//for merchant type routing
+//merchantQuery extends the dateRangeQuery, so not required to validate dateRangeQuery seperately
+router.get('/accounts/:accountId/merchants', validate(accountIdParams, 'params'), validate(merchantsQuery, 'query'), async(req, res) => {
+
+    const {accountId} = req.valid.params;
+    const {from, to, limit} = req.valid.query;
+
+    const merSql = 
+    `SELECT merchant_name, SUM(amount) AS total
+    FROM transactions
+    WHERE account_id = $1 AND direction = 'Paid' AND status = 'Success' AND txn_date >= $2 AND txn_date < $3 
+    GROUP BY merchant_name
+    ORDER BY total DESC
+    LIMIT $4`;
+
+    const merPool = await pool.query(merSql, [accountId, from, to, limit]);
+    const merRows = merPool.rows;
+    const merResults = merRows.map(r => ({merchant: r.merchant_name, total: Number(r.total)}));
+
+    return res.json({
+        merchants: merResults
+    });
 });
 
 export default router;
