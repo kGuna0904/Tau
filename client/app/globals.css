@@ -2,26 +2,51 @@
 /*@import \public\assets\fonts\WEB\css\clash-display.css; */
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #0B0F14;
+  --foreground: #F4F7FA;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --font-body: var(--font-inter);
+  --font-display: var(--font-clash);
+
+  --color-base: #0B0F14; /*Page/app background */
+  --color-surface: #141A21; /*Cards, sidebar, modals, table rows */
+  --color-surface-raised: #1B222B;; /* Hover state on cards, nested surfaces */
+  --color-border-default: #1F2831; /*1px borders on cards, dividers, inputs */
+  --color-border-active: #00E08A; /* Focused input border, active nav indicator */
+  --color-accent-primary: #00E08A; /* Primary CTA, positive amounts, active states, logo */
+  --color-accent-secondary: #4C7DF0; /* Links, secondary charts, info badges */
+  --color-accent-negative: #FF5C5C; /* Expense amounts, errors, destructive actions */
+  --color-accent-warning: #E8B44A; /* Pending states, warnings */
+  --color-accent-violet: #8B7BF0; /* 5th chart/category color (rounds out the 5-color chart set) */
+  --color-text-primary: #F4F7FA; /* Headings, primary values (balance, amounts) */
+  --color-text-secondary: #8A97A6; /* Labels, timestamps, muted body text */
+  --color-text-disabled: #5A6472; /* Disabled fields */
+
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 20px;
+  --radius-xl: 24px;
+  --radius-full: 999px;
+
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-body);
+}
+
+/* only one per page */
+.glass-surface {
+  background: rgba(20, 26, 33, 0.55);   /* --bg-surface at 55% opacity */
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(244, 247, 250, 0.12);  /* text-primary at 12% */
+  border-radius: var(--radius-xl);
+  box-shadow: 0 8px 32px rgba(0, 224, 138, 0.08); /* faint accent glow */
 }
