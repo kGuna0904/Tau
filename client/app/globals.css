@@ -42,6 +42,44 @@ body {
 }
 
 /* only one per page */
+.homeEffect {
+  position: relative;
+  
+  /* Radial gradient: base color at center, fading out to primary (mint) at the edges */
+  background: radial-gradient(
+    circle at center,
+    rgba(0, 197, 105, 0.196) 0%,      /* --bg-base, denser at center */
+    rgba(0, 224, 194, 0.359) 100%   /* --accent-primary, fading outward */
+  );
+
+  /* The core glass blur effect */
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(30px); /* keep both values matching */
+
+  /* Semi-transparent border to simulate glass edge reflection */
+  border: 1px solid rgba(255, 255, 255, 0.2);
+
+  /* Inner depth shadow + outer ambient glow, layered together */
+  box-shadow:
+    0 8px 32px 0 rgba(0, 0, 0, 0.2),        /* original depth shadow, kept */
+    0 0 40px 8px rgba(0, 224, 138, 0.308);   /* outer glow — soft mint halo bleeding outward */
+
+  border-radius: 16px;
+  color: #ffffff;
+}
+
+.homeEffect:hover {
+  position: relative;
+  
+  /* Radial gradient: base color at center, fading out to primary (mint) at the edges */
+  background: radial-gradient(
+    circle at center,
+    rgba(0, 197, 105, 0.416) 0%,      /* --bg-base, denser at center */
+    rgba(0, 224, 172, 0.493) 100%   /* --accent-primary, fading outward */
+  );
+}
+
+/* only one per page */
 .glassEffect {
   position: relative;
   
