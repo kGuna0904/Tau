@@ -42,11 +42,77 @@ body {
 }
 
 /* only one per page */
-.glass-surface {
-  background: rgba(20, 26, 33, 0.55);   /* --bg-surface at 55% opacity */
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(244, 247, 250, 0.12);  /* text-primary at 12% */
-  border-radius: var(--radius-xl);
-  box-shadow: 0 8px 32px rgba(0, 224, 138, 0.08); /* faint accent glow */
+.glassEffect {
+  position: relative;
+  
+  /* Radial gradient: base color at center, fading out to primary (mint) at the edges */
+  background: radial-gradient(
+    circle at center,
+    rgba(33, 40, 50, 0.6) 0%,      /* --bg-base, denser at center */
+    rgba(0, 224, 138, 0.15) 100%   /* --accent-primary, fading outward */
+  );
+
+  /* The core glass blur effect */
+  backdrop-filter: blur(30px);
+  -webkit-backdrop-filter: blur(30px); /* keep both values matching */
+
+  /* Semi-transparent border to simulate glass edge reflection */
+  border: 1px solid rgba(255, 255, 255, 0.2);
+
+  /* Inner depth shadow + outer ambient glow, layered together */
+  box-shadow:
+    0 8px 32px 0 rgba(0, 0, 0, 0.2),        /* original depth shadow, kept */
+    0 0 40px 8px rgba(0, 224, 138, 0.2);   /* outer glow — soft mint halo bleeding outward */
+
+  border-radius: 16px;
+  padding: 24px;
+  color: #ffffff;
 }
+
+.newEffect:hover{
+    background: radial-gradient(
+    circle at center,
+    rgba(0, 219, 110, 0.438) 0%,      /* --bg-base, denser at center */
+    rgba(0, 224, 138, 0.538) 100%   /* --accent-primary, fading outward */
+  );
+  transition: transform 3s ease-in-out 
+
+}
+
+.newEffect {
+  position: relative;
+  
+  /* Radial gradient: base color at center, fading out to primary (mint) at the edges */
+  background: radial-gradient(
+    circle at center,
+    rgba(33, 40, 50, 0.6) 0%,      /* --bg-base, denser at center */
+    rgba(0, 224, 138, 0.15) 100%   /* --accent-primary, fading outward */
+  );
+
+  /* The core glass blur effect */
+  backdrop-filter: blur(30px);
+  -webkit-backdrop-filter: blur(30px); /* keep both values matching */
+
+  /* Semi-transparent border to simulate glass edge reflection */
+  border: 1px solid rgba(255, 255, 255, 0.2);
+
+  /* Inner depth shadow + outer ambient glow, layered together */
+  box-shadow:
+    0 8px 32px 0 rgba(0, 0, 0, 0.2),        /* original depth shadow, kept */
+    0 0 40px 8px rgba(0, 224, 138, 0.2);   /* outer glow — soft mint halo bleeding outward */
+
+  border-radius: 16px;
+  padding: 24px;
+  color: #ffffff;
+}
+
+.newEffect:hover{
+    background: radial-gradient(
+    circle at center,
+    rgba(0, 219, 110, 0.438) 0%,      /* --bg-base, denser at center */
+    rgba(0, 224, 138, 0.721) 100%   /* --accent-primary, fading outward */
+  );
+  transition: transform 3s ease-in-out 
+
+}
+
