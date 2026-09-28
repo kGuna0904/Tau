@@ -48,7 +48,8 @@ export default function LoginPage() {
             <form onSubmit={handleSubmit} className="w-lg flex flex-col bg-surface border border-border-default p-8 rounded-md gap-4 ">
                 <input type="email" className="rounded-sm py-3 border border-border-default focus:border-border-active outline-none text-center  text-text-primary placeholder:text-text-disabled" value={email} placeholder="example@tau.app" onChange={(e) => setEmail(e.target.value)}/>
                 <input type="password" className="rounded-sm py-3 border border-border-default focus:border-border-active outline-none text-center text-text-primary placeholder:text-text-disabled" value={password} placeholder="password" onChange={(e) => setPassword(e.target.value)}/>
-                <button type="submit" disabled={loading} className="newEffect hover: bg-accent-primary/40">{loading ? 'Signing in…' : 'Log in →'}</button>
+                <p className='text-accent-negative/70' title='in development'>forgot password?</p>
+                <button type="submit" disabled={loading} className="newEffect hover: bg-accent-primary/40 mt-3 py-4">{loading ? 'Signing in…' : 'Log in →'}</button>
                 {error && <p className='text-accent-negative'>{error}</p>}
             </form>
         </div>

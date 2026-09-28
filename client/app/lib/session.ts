@@ -5,8 +5,8 @@ import {cookies} from 'next/headers';
 //cookie name assigned
 const COOKIE = 'tau_session';
 
-//cookie life in ms, 8hrs
-const CookieLife = (8 * 60 * 60 * 1000);
+//cookie life in ms, 5mins
+const CookieLife = (5 * 60 * 1000);
 
 //function that signs the value of the cookie and generates signature
 //since it is type script mention the type of the params
@@ -83,7 +83,7 @@ export async function setSessionCookie(accountId:string){
         sameSite: 'lax',//it enables the cross site request forgery, hence not allowing any third party to read or use the cookie
         secure: process.env.NODE_ENV === 'production',//this purely for production purpose where next js provides the security for the https, instead of using the http
         path: '/',//ensures the path of the pages 
-        maxAge: 8 * 60 * 60//age in seconds
+        maxAge: 5 * 60//age in seconds, 300sec
     });
 
 }

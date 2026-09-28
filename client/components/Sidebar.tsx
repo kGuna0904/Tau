@@ -62,7 +62,7 @@ export default function Sidebar() {
             })}
         </div>
 
-        <div className='glassEffect mt-auto mb-12'>
+        <div className='glassEliteEffect mt-auto mb-12'>
             <div className='text-sm flex flex-col'>
             <h2>Upgrade to <span className="text-amber-300 font-display font-semibold ">Elite</span></h2>
             <p className='text-xs text-text-secondary pt-2'><span className='text-accent-primary'>Upgrade</span> to get better insights and suggestions</p>
