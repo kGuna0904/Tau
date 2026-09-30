@@ -1,5 +1,5 @@
-//this file purpose is to request the details with backend file, where then the backendget talks to the express
-
+//this file purpose is to request the details with backend file, where then the backendpost talks to the express
+//sends the data to the backend and from there it goes to the server routing auth and then parses and verifies 
 
 import {z} from 'zod';//for the validation
 import { setSessionCookie } from '@/app/lib/session';//session cookie at the time of login, correct path

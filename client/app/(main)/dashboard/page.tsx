@@ -31,13 +31,13 @@ export default function DashboardPage() {
         setProfile(p);
         setMonths(m.months);
         setLoading(false);
-    }
+        }
     LoadPage();
     },[]);
 
 
     if (loading) {
-        return <p className="text-text-secondary animate-pulse text-2xl mx-auto my-auto">Loading…</p>;
+        return <p className="animate-pulse text-2xl mx-auto my-auto text-accent-primary">Loading…</p>;
     }
 
     const yearIncome = months.reduce((sum, m) => sum + m.income, 0);
@@ -46,20 +46,21 @@ export default function DashboardPage() {
 
     return (
     <div className="flex flex-col pb-4">
-        <h1 className="font-display text-3xl mb-5">Dashboard</h1>
+        <h1 className="font-display text-3xl mb-3">Dashboard</h1>
     
         <div className="glassEffect p-5 rounded-xl mt-6 flex justify-between">
             <div>
-                <h2 className="font-display text-xl mt-2"><span className="text-accent-primary text-2xl font-semibold">Total year data</span></h2>
+                <h2 className="font-display text-xl mt-2"><span className="text-accent-primary text-2xl font-semibold">Total year data</span></h2>  
                 <p className="text-xs text-text-secondary mt-2 ">Small steps today, greater freedom tomorrow!</p>
-                <p className="text-sm text-text-secondary mt-8">
+                <p className="mt-6">Account Id: <span className="text-accent-primary font-semibold text-2xl">{profile.account_id}</span></p>
+                <p className="text-sm text-text-secondary mt-1 outline-none">
                     {profile.account_type} · {profile.bank_name}
                 </p> 
             </div>
 
             <div className="text-right">
                 <button disabled className="border border-b-2 rounded-lg p-1 opacity-75 text-sm">Updated today</button>
-                <p className="text-xl text-accent-primary mt-3">Current Balance</p>
+                <p className="text-xl text-accent-primary mt-10">Current Balance</p>
                 <h1 className="font-display text-4xl">{moneyPrecise(profile.current_balance)}</h1>
             </div>
 

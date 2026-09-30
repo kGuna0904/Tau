@@ -117,7 +117,7 @@ router.get('/accounts/:accountId/transactions', validate(accountIdParams, 'param
     const where = `
     WHERE account_id = $1 
     AND ($2:: text IS NULL OR direction = $2) 
-    AND ($3:: text IS NULL OR merchant_name ILIKE $3 OR category ILIKE $3) 
+    AND ($3:: text IS NULL OR merchant_name ILIKE $3 OR category ILIKE $3 OR trans_id ILIKE $3) 
     AND ($4::date IS NULL OR txn_date >= $4) 
     AND ($5::date IS NULL OR txn_date <= $5)`;
 
@@ -163,13 +163,13 @@ router.get('/accounts/:accountId/statement', validate(accountIdParams, 'params')
 
     //takes 3 queries
 
-    //
+    //only opening balance of the account 
     const  qA= 
     `SELECT opening_balance 
     FROM accounts 
     WHERE account_id = $1`;
 
-    //
+    //case when direction recived the amount is +ve else -ve, from a selected date
     const qB =
     `SELECT COALESCE(SUM(CASE WHEN direction = 'Received' THEN amount ELSE -amount END), 0) AS moved
     FROM transactions
@@ -177,9 +177,9 @@ router.get('/accounts/:accountId/statement', validate(accountIdParams, 'params')
     AND status = 'Success'
     AND txn_date < $2`;
 
-    //
+    //returns the data(columns) of the selected from and to date 
     const qC = 
-    `SELECT trans_id, txn_date::text AS txn_date, merchant_name, direction, amount,
+    `SELECT trans_id, txn_date::text AS txn_date, merchant_name, category, direction, amount,
     SUM(CASE WHEN direction = 'Received' THEN amount ELSE -amount END)
     OVER (ORDER BY txn_date, txn_time, trans_id) AS running
     FROM transactions
@@ -193,8 +193,9 @@ router.get('/accounts/:accountId/statement', validate(accountIdParams, 'params')
     const qBresults = await pool.query(qB, [accountId, from]);
     const qCresults = await pool.query(qC, [accountId, from, to]);
 
-    //account
+    //account 
     const Arows = qAresults.rows[0];
+    //throws an err if the opening balance not found
     if(!Arows){
         return res.status(404).json({error: "Balance not found"});
     }
@@ -211,6 +212,7 @@ router.get('/accounts/:accountId/statement', validate(accountIdParams, 'params')
     const closing = stateRows.length ? stateRows[stateRows.length - 1].balance : opening;
     
     return res.json({
+        account_id: accountId,
         opening_balance: opening,
         closing_balance: closing,
         rows: stateRows

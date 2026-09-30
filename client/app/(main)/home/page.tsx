@@ -44,25 +44,26 @@ export default function HomePage() {
 
 
     if (loading) {
-        return <p className="text-text-secondary animate-pulse text-2xl mx-auto my-auto">Loading…</p>;
+        return <p className=" animate-pulse text-2xl mx-auto my-auto text-accent-primary">Loading…</p>;
     }
 
     return (
-    <div className="flex flex-col pb-4">
-        <h1 className="font-display text-3xl mb-5">Home</h1>
+    <div className="flex flex-col pb-4 outline-none">
+        <h1 className="font-display text-3xl mb-4">Home</h1>
     
         <div className="glassEffect p-5 rounded-xl mt-6 flex justify-between">
             <div>
-                <h2 className="font-display text-xl mt-2">Good day, <span className="text-accent-primary pl-2 text-2xl font-semibold">{profile.holder_name}</span></h2>
-                <p className="text-xs text-text-secondary mt-2 ">Small steps today, greater freedom tomorrow!</p>
-                <p className="text-sm text-text-secondary mt-8">
+                <h2 className="font-display text-xl mt-2">Good day, <span className="text-accent-primary pl-2 text-2xl font-semibold outline-none">{profile.holder_name}</span></h2>
+                <p className="text-xs text-text-secondary mt-2 outline-none">Small steps today, greater freedom tomorrow!</p>
+                <p className="mt-6">Account Id: <span className="text-accent-primary font-semibold text-2xl">{profile.account_id}</span></p>
+                <p className="text-sm text-text-secondary mt-1 outline-none">
                     {profile.account_type} · {profile.bank_name}
                 </p> 
             </div>
 
             <div className="text-right">
                 <button disabled className="border border-b-2 rounded-lg p-1 opacity-75 text-sm">Updated today</button>
-                <p className="text-xl text-accent-primary mt-3">Current Balance</p>
+                <p className="text-xl text-accent-primary mt-10">Current Balance</p>
                 <h1 className="font-display text-4xl">{moneyPrecise(profile.current_balance)}</h1>
             </div>
 

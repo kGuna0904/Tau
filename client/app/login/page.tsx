@@ -44,12 +44,12 @@ export default function LoginPage() {
         <>
         <div className="mt-25 mx-auto flex flex-col items-center justify-center bg-base">
             <Image className="mb-1" src="/assets/images/wordmarked.png" alt="Tau Wordmark" width={240} height={120}/>
-            <h2 className="mb-12 font-display">Manage your transactions with <span className="text-accent-primary">Tau</span></h2>
+            <h2 className="mb-12 font-display">Manage and analyze your transactions with <span className="text-accent-primary">Tau</span></h2>
             <form onSubmit={handleSubmit} className="w-lg flex flex-col bg-surface border border-border-default p-8 rounded-md gap-4 ">
                 <input type="email" className="rounded-sm py-3 border border-border-default focus:border-border-active outline-none text-center  text-text-primary placeholder:text-text-disabled" value={email} placeholder="example@tau.app" onChange={(e) => setEmail(e.target.value)}/>
                 <input type="password" className="rounded-sm py-3 border border-border-default focus:border-border-active outline-none text-center text-text-primary placeholder:text-text-disabled" value={password} placeholder="password" onChange={(e) => setPassword(e.target.value)}/>
                 <p className='text-accent-negative/70' title='in development'>forgot password?</p>
-                <button type="submit" disabled={loading} className="newEffect hover: bg-accent-primary/40 mt-3 py-4">{loading ? 'Signing in…' : 'Log in →'}</button>
+                <button type="submit" disabled={loading} className="newEffect hover:bg-accent-primary/40 mt-3 animate-pulse py-4">{loading ? 'Verifying..' : 'Log in →'}</button>
                 {error && <p className='text-accent-negative'>{error}</p>}
             </form>
         </div>

@@ -182,3 +182,9 @@ body {
   padding: 24px;
   color: #ffffff;
 }
+
+/* Turns the svg icons into the apps primary color */
+.iconSvg:hover {
+  filter: invert(56%) sepia(87%) saturate(583%) hue-rotate(110deg) brightness(98%) contrast(93%);
+
+}

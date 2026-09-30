@@ -5,16 +5,18 @@ import Link from 'next/link';
 import {usePathname} from 'next/navigation';
 import Image from 'next/image';
 
+
 const links = [
     {label: 'Home', href: '/home', icon: '/assets/icons/icon_svg/home.svg'},
     {label: 'Dashboard', href: '/dashboard', icon: '/assets/icons/icon_svg/03-bar-chart.svg'},
     {label: 'Analytics', href: '/analytics', icon: '/assets/icons/icon_svg/04-pie-chart.svg'},
     {label: 'Transactions', href: '/transactions', icon: '/assets/icons/icon_svg/12-receipt.svg'},
     {label: 'Bank-Statements', href: '/statements', icon: '/assets/icons/icon_svg/13-bank.svg'},
-    {label: 'Accounts', href: '/accounts', icon: '/assets/icons/icon_svg/02-credit-card.svg'},
+    
 ];
 
 const disLinks = [
+    {label: 'Accounts', href: '/accounts', icon: '/assets/icons/icon_svg/02-credit-card.svg'},
     {label: 'Settings', href: '#', icon: '/assets/icons/icon_svg/09-settings.svg'},
     {label: 'Help', href: '#2', icon: '/assets/icons/icon_svg/09-settings.svg'},
 ]
@@ -28,7 +30,7 @@ export default function Sidebar() {
     const inactive = 'text-text-secondary';
 
     return(
-    <div className="w-55 h-screen bg-surface shrink-0 flex flex-col border-r border-border-default px-2 shadow-lg shadow-accent-primary/35">
+    <div className="w-55 h-screen bg-surface shrink-0 flex flex-col border-r border-border-default px-2 shadow-lg shadow-accent-primary/35 outline-none">
         <nav>
             <Link href='/home'> 
                 <Image src="/assets/images/wordmarked.png" className='mb-4 mt-3 mx-4' alt="Tau Logo" width={100} height={60}/>
@@ -42,7 +44,7 @@ export default function Sidebar() {
                         key={link.href}
                         href={link.href}
                         className={`${base} ${isActive ? active : inactive}`}>
-                            <Image className="invert" src={link.icon} alt='' width={30} height={30} />
+                            <Image className="invert iconSvg" src={link.icon} alt='' width={30} height={30} />
                             {link.label}
                     </Link>                        
                 );
