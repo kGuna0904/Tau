@@ -85,7 +85,7 @@ export default function HomePage() {
                     <span className="text-right">Amount</span>
                 </div>
                 
-                {recent.map(:any => (
+                {recent.map((t ) => (
                 <div key={t.trans_id} className="grid grid-cols-[330px_390px_110px_1fr]  py-3 border-b border-border-default items-center">
                     <span className="text-text-secondary text-sm w-28">{dateFormat(t.txn_date)}</span>
                     <span>{t.merchant_name}</span>
