@@ -10,7 +10,7 @@ export default function HomePage() {
     
     const [profile, setProfile] = useState<any>(null);
     const [summary, setSummary] = useState<any>(null);
-    const [recent, setRecent] = useState([]);
+    const [recent, setRecent] = useState<any[]>([]);
     const [month, setMonth] = useState('');
     const [loading, setLoading] = useState(true);
 
@@ -85,7 +85,7 @@ export default function HomePage() {
                     <span className="text-right">Amount</span>
                 </div>
                 
-                {recent.map(t => (
+                {recent.map(:any => (
                 <div key={t.trans_id} className="grid grid-cols-[330px_390px_110px_1fr]  py-3 border-b border-border-default items-center">
                     <span className="text-text-secondary text-sm w-28">{dateFormat(t.txn_date)}</span>
                     <span>{t.merchant_name}</span>

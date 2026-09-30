@@ -102,7 +102,7 @@ export default function StatementPage(){
                         <span className="text-right">Closing Balance</span>
                     </div>
                                             
-                    {data.rows.map(t => (
+                    {data.rows.map(t:any => (
                         <div key={t.trans_id} className="grid grid-cols-[150px_240px_240px_110px_220px_1fr]  py-3 border-b border-border-default items-center">
                             <span className="text-text-secondary text-sm w-28">{dateFormat(t.txn_date)}</span>
                             <span>{t.trans_id}</span>
