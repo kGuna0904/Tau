@@ -43,7 +43,7 @@ All the data is made up: 25 accounts and 9,072 transactions. No real bank accoun
 
 ## Architecture
 
-My mentor shared a reference architecture at the start: client → server → routes → controllers → services → models → database, with the answer coming back the same way and an error handler underneath.
+reference architecture at the start: client → server → routes → controllers → services → models → database, with the answer coming back the same way and an error handler underneath.
 
 Most of it I followed. Three parts I did differently, on purpose:
 
